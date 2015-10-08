@@ -55,14 +55,13 @@ class GraylogCollector < FPM::Cookery::Recipe
 
   platforms [:centos] do
     case fact('operatingsystemmajrelease')
-    #when '6'
-      #depends 'util-linux-ng'
+    when '6'
+      depends 'util-linux-ng'
 
-      #config_files '/etc/init.d/graylog-collector',
-      #             '/etc/sysconfig/graylog-collector'
+      config_files '/etc/init.d/graylog-collector', '/etc/sysconfig/graylog-collector'
 
-      #post_install 'files/centos/post-install'
-      #pre_uninstall 'files/centos/pre-uninstall'
+      post_install 'files/centos/post-install'
+      pre_uninstall 'files/centos/pre-uninstall'
     when '7'
       depends 'util-linux'
 
@@ -100,9 +99,10 @@ class GraylogCollector < FPM::Cookery::Recipe
       etc('default').install file('default.sysconfig'), 'graylog-collector'
     when :centos
       case fact('operatingsystemmajrelease')
-      #when '6'
-        #etc('init.d').install osfile('init.d'), 'graylog-collector'
-        #etc('init.d/graylog-collector').chmod(0755)
+      when '6'
+        etc('init.d').mkpath
+        etc('init.d').install osfile('init.d'), 'graylog-collector'
+        etc('init.d/graylog-collector').chmod(0755)
       when '7'
         lib('systemd/system').install file('systemd.service'), 'graylog-collector.service'
       end

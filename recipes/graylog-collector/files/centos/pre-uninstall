@@ -1,0 +1,4 @@
+if [ $1 -eq 0 ]; then
+  service graylog-collector stop
+  chkconfig graylog-collector off
+fi

@@ -1,0 +1,7 @@
+# Enable service
+chkconfig graylog-collector on
+
+# Create an initial collector-id.
+if [ ! -s /etc/graylog/collector/collector-id ]; then
+    uuidgen > /etc/graylog/collector/collector-id
+fi
